@@ -7,8 +7,19 @@ export function getContext(): CanvasRenderingContext2D {
   return context;
 }
 
+function clearCanvas() {
+  context.clearRect(0, 0, canvasElement.width, canvasElement.height);
+}
+
+let prevTime = (new Date()).getTime();
 function onAnimationFrame() {
-  world.tick();
+  const nowTime = (new Date()).getTime();
+  const dt = (nowTime - prevTime) / 1000;
+
+  clearCanvas();
+  world.tick(dt);
+
+  prevTime = nowTime;
   window.requestAnimationFrame(onAnimationFrame);
 }
 

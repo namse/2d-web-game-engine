@@ -2,41 +2,29 @@ import Vector from "./Vector";
 import Thing from "./Thing";
 import { getContext } from "./CanvasManager";
 
-export default class Sprite extends Thing {
+export default abstract class Sprite extends Thing {
+  protected ctx: CanvasRenderingContext2D;
   constructor(
     protected location: Vector,
   ) {
     super(location);
   }
 
-  public tick() {
-    const ctx = getContext();
-    ctx.save();
+  protected beforeTick(dt: number) {
+    super.beforeTick(dt);
+    if (!this.ctx) {
+      this.ctx = getContext();
+    }
+    this.ctx.save();
 
     this.draw();
 
-    ctx.translate(this.location.x, this.location.y);
-
-    this.children.forEach(child => {
-      child.tick();
-    });
-
-    ctx.restore();
+    this.ctx.translate(this.location.x, this.location.y);
+  }
+  protected afterTick(dt: number) {
+    super.afterTick(dt);
+    this.ctx.restore();
   }
 
-  private draw() {
-    const ctx = getContext();
-    const r = 30;
-    ctx.beginPath();
-    ctx.ellipse(
-      this.location.x + r,
-      this.location.y + r,
-      r,
-      r,
-      0,
-      0,
-      360,
-    );
-    ctx.stroke();
-  }
+  protected abstract draw(): void;
 }
