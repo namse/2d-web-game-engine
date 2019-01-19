@@ -7,7 +7,7 @@
     "target": "es5",
     "baseUrl": ".",
     "paths": {
-      "@engine": ["../../dist"]
+      "@engine": ["../../../dist"]
     }
   }
 }
