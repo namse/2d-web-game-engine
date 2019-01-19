@@ -18,9 +18,9 @@ export default abstract class Sprite extends Thing {
     }
     this.ctx.save();
 
-    this.draw();
-
     this.ctx.translate(this.location.x, this.location.y);
+
+    this.draw();
   }
   protected afterTick(dt: number) {
     super.afterTick(dt);
