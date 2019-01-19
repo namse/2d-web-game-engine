@@ -7,8 +7,21 @@ export default class Thing {
   protected velocity: number = 100;
   constructor(
     public location: Vector = new Vector(0, 0),
-    protected size: Vector = new Vector(0, 0),
+    public size: Vector = new Vector(0, 0),
+    public anchor: Vector = new Vector(0, 0),
   ) {
+  }
+  public getLeftTop(): Vector {
+    return this.location.SubVector(this.anchor);
+  }
+  public getWorldLeftTop(): Vector {
+    let ret = this.getLeftTop();
+    let parent = this.parent;
+    while (parent) {
+      ret = ret.AddVector(parent.getLeftTop());
+      parent = parent.parent;
+    }
+    return ret;
   }
   public getWorldLocation(): Vector {
     let ret = this.location;

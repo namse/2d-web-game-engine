@@ -22,11 +22,11 @@ export default class MouseController {
     });
   }
   private propagateMouseEvent(target: Thing, mouseLocation: Vector) {
-    const targetWorldLocation = target.getWorldLocation();
+    const targetWorldLeftTop = target.getWorldLeftTop();
     const targetSize = target.getSize();
 
-    const isXInsideOfRect = targetWorldLocation.x <= mouseLocation.x && mouseLocation.x <= targetWorldLocation.x + targetSize.x;
-    const isYInsideOfRect = targetWorldLocation.y <= mouseLocation.y && mouseLocation.y <= targetWorldLocation.y + targetSize.y;
+    const isXInsideOfRect = targetWorldLeftTop.x <= mouseLocation.x && mouseLocation.x <= targetWorldLeftTop.x + targetSize.x;
+    const isYInsideOfRect = targetWorldLeftTop.y <= mouseLocation.y && mouseLocation.y <= targetWorldLeftTop.y + targetSize.y;
 
     if ((target as any).onMouseEvent && isXInsideOfRect && isYInsideOfRect) {
       (target as any).onMouseEvent(mouseLocation);

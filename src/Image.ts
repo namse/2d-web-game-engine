@@ -6,6 +6,8 @@ export default class Image extends Sprite {
     location: Vector,
     size: Vector,
     private image: HTMLImageElement,
+    private sourceX: number = 0,
+    private sourceY: number = 0,
   ) {
     super(location, size);
   }
@@ -18,8 +20,14 @@ export default class Image extends Sprite {
     }
     this.ctx.drawImage(
       this.image,
-      -(this.image.width / 2) + this.location.x,
-      -(this.image.height / 2) + this.location.y,
+      this.sourceX,
+      this.sourceY,
+      this.size.x,
+      this.size.y,
+      -this.anchor.x,
+      -this.anchor.y,
+      this.size.x,
+      this.size.y,
     );
   }
 }
