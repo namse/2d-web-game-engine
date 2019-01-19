@@ -4,6 +4,7 @@ import Text from "../../../src/Text";
 import Vector from '../../../src/Vector';
 import LayerMenu from './LayerMenu';
 import MouseController from '../../../src/MouseController';
+import AssetMenu from './AssetMenu';
 
 const canvasElement = document.getElementById('canvas') as HTMLCanvasElement;
 
@@ -14,5 +15,8 @@ world.addChildren(title);
 
 const layerMenu = new LayerMenu(new Vector(20, 100), new Vector(100, 400));
 world.addChildren(layerMenu);
+
+const assetMenu = new AssetMenu(new Vector(140, 100), new Vector(AssetMenu.columnCount * AssetMenu.tileSize , 400));
+world.addChildren(assetMenu);
 
 const mouseController = new MouseController();
