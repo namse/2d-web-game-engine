@@ -7,7 +7,11 @@ export default class Thing {
   protected velocity: number = 100;
   constructor(
     protected location: Vector = new Vector(0, 0),
+    protected size: Vector = new Vector(0, 0),
   ) {
+  }
+  public getSize(): Vector {
+    return this.size;
   }
   protected beforeTick(dt: number) {
     this.updateLocation(dt);

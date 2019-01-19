@@ -5,9 +5,10 @@ import { getContext } from "./CanvasManager";
 export default abstract class Sprite extends Thing {
   protected ctx: CanvasRenderingContext2D;
   constructor(
-    protected location: Vector,
+    location: Vector,
+    size: Vector,
   ) {
-    super(location);
+    super(location, size);
   }
 
   protected beforeTick(dt: number) {
