@@ -29,3 +29,7 @@ export function setCanvasElement(element: HTMLCanvasElement) {
   canvasElement = element;
   context = canvasElement.getContext('2d');
 }
+
+export function getCanvasElement() {
+  return canvasElement;
+}

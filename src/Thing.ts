@@ -1,14 +1,23 @@
 import Vector from "./Vector";
 
 export default class Thing {
-  protected children: Thing[] = [];
+  public children: Thing[] = [];
   protected parent: Thing = null;
   protected speed: Vector = new Vector(0, 0);
   protected velocity: number = 100;
   constructor(
-    protected location: Vector = new Vector(0, 0),
+    public location: Vector = new Vector(0, 0),
     protected size: Vector = new Vector(0, 0),
   ) {
+  }
+  public getWorldLocation(): Vector {
+    let ret = this.location;
+    let parent = this.parent;
+    while (parent) {
+      ret = ret.AddVector(parent.location);
+      parent = parent.parent;
+    }
+    return ret;
   }
   public getSize(): Vector {
     return this.size;
