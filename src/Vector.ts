@@ -17,6 +17,12 @@ export default class Vector {
     });
     return new Vector(x, y);
   }
+  SubXY(x: number, y: number): Vector {
+    return this.AddXY(-x, -y);
+  }
+  SubVector(...vectors: Vector[]): Vector {
+    return this.AddVector(...vectors.map(vector => new Vector(-vector.x, -vector.y)));
+  }
   scale(factorOrX: number, factorY?: number): Vector {
     if (factorY !== 0 && !factorY) {
       return new Vector(this.x * factorOrX, this.y * factorOrX);
