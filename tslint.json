@@ -16,7 +16,8 @@
         "max-classes-per-file": false,
         "no-console": false,
         "member-access": false,
-        "arrow-parens": false
+        "arrow-parens": false,
+        "trailing-comma": [true, {"multiline": "always", "singleline": "never"}]
     },
     "rulesDirectory": []
 }
