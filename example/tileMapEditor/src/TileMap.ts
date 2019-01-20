@@ -35,6 +35,7 @@ export default class TileMap extends Sprite implements MouseHandler {
     this.scrollTo(this.scroll.AddVector(delta));
   }
   protected draw(): void {
+    this.ctx.beginPath();
     this.ctx.strokeStyle = 'pink';
     this.ctx.rect(
       0,
