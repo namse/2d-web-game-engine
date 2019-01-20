@@ -24,8 +24,8 @@ export default class Image extends Sprite {
       this.sourceY,
       this.size.x,
       this.size.y,
-      -this.anchor.x,
-      -this.anchor.y,
+      0,
+      0,
       this.size.x,
       this.size.y,
     );

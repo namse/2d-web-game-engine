@@ -18,7 +18,7 @@ export default abstract class Sprite extends Thing {
     }
     this.ctx.save();
 
-    this.ctx.translate(this.location.x, this.location.y);
+    this.ctx.translate(this.location.x - this.anchor.x, this.location.y - this.anchor.y);
 
     this.draw();
   }
