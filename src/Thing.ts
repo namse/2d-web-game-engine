@@ -55,6 +55,9 @@ export default class Thing {
       thing.setParent(this);
     });
   }
+  public removeChild(index: number): Thing | undefined {
+    return this.children.splice(index, 1)[0];
+  }
   private setParent(parent: Thing) {
     this.parent = parent;
   }
