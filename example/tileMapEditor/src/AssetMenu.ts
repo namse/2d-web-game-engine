@@ -23,7 +23,6 @@ export default class AssetMenu extends Box {
   }
   private async loadAssets() {
     const assetImage = await loadImage('asset1.png');
-    console.log(assetImage);
     for (let y = 0; y < assetImage.height; y += AssetMenu.tileSize) {
       for (let x = 0; x < assetImage.width; x += AssetMenu.tileSize) {
         const tileImage = new Image(new Vector(0, 0), new Vector(64, 64), assetImage, x, y);
@@ -34,7 +33,6 @@ export default class AssetMenu extends Box {
     this.tileImages.forEach((tileImage, index) => {
       const x = (index % AssetMenu.columnCount) * AssetMenu.tileSize;
       const y = (Math.floor(index / AssetMenu.columnCount)) * AssetMenu.tileSize;
-      console.log(x, y);
       tileImage.location = new Vector(x, y);
       this.assetBox.addChildren(tileImage);
     });

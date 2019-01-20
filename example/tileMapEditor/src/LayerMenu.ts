@@ -1,7 +1,7 @@
 import Box from "../../../src/Box";
 import Vector from "../../../src/Vector";
 import Text from "../../../src/Text";
-import { MouseHandler } from "../../../src/MouseController";
+import { MouseHandler, MouseEventType } from "../../../src/MouseController";
 
 class LayerBox extends Box implements MouseHandler {
   static layerBoxHeight: number = 20;
@@ -17,14 +17,18 @@ class LayerBox extends Box implements MouseHandler {
     const nameText = new Text(new Vector(this.size.x / 2, this.size.y / 2 - fontSize / 2), name);
     this.addChildren(nameText);
   }
-  onMouseEvent(mouseLocation: Vector): void {
+  onMouseEvent(mouseEventType: MouseEventType, mouseLocation: Vector): void {
 
   }
 }
 
 class AddLayerButtonBox extends LayerBox implements MouseHandler {
-  onMouseEvent(mouseLocation: Vector): void {
-    this.layerMenu.addLayer('test');
+  onMouseEvent(mouseEventType: MouseEventType, mouseLocation: Vector): void {
+    switch (mouseEventType) {
+      case MouseEventType.MouseDown: {
+        this.layerMenu.addLayer('test');
+      } break;
+    }
   }
 }
 
