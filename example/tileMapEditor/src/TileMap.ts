@@ -1,14 +1,25 @@
 import Box from "../../../src/Box";
 import Vector from "../../../src/Vector";
-import Sprite from "../../../src/Sprite";
+import ScrollBox from "../../../src/ScrollBox";
 import { MouseHandler, MouseEventType } from "../../../src/MouseController";
+import { MouseMode } from "./MouseMode";
+import state from "./state";
+import Image from "../../../src/Image";
 
-export default class TileMap extends Sprite implements MouseHandler {
+class Tile extends Image implements MouseHandler {
+  onMouseEvent(mouseEventType: MouseEventType, mouseLocation: Vector): void {
+    if (mouseEventType !== MouseEventType.MouseDown || !state.brush || state.mouseMode !== MouseMode.Fill) {
+      return;
+    }
+    this.setImage(state.brush.assetImage);
+    this.sourceX = state.brush.x;
+    this.sourceY = state.brush.y;
+  }
+}
+
+export default class TileMap extends ScrollBox implements MouseHandler {
   private mapSize: Vector;
   static readonly tileSize = new Vector(64, 64);
-  private scroll = new Vector(0, 0);
-  private isMouseDown: boolean = false;
-  private lastMouseLocation: Vector;
   constructor(location: Vector, size: Vector) {
     super(location, size);
 
@@ -25,49 +36,15 @@ export default class TileMap extends Sprite implements MouseHandler {
       for (let x = 0; x < size.x; x += 1 ) {
         const box = new Box(TileMap.tileSize.scale(x, y), TileMap.tileSize);
         this.addChildren(box);
+
+        const tile = new Tile(box.location, box.size, undefined);
+        this.addChildren(tile);
       }
     }
   }
-  public scrollTo(location: Vector) {
-    this.scroll = location;
-  }
-  public scrollBy(delta: Vector) {
-    this.scrollTo(this.scroll.AddVector(delta));
-  }
-  protected draw(): void {
-    this.ctx.beginPath();
-    this.ctx.strokeStyle = 'pink';
-    this.ctx.rect(
-      0,
-      0,
-      this.size.x,
-      this.size.y,
-    );
-    this.ctx.stroke();
-    this.ctx.clip();
-
-    this.ctx.translate(-this.scroll.x, -this.scroll.y);
-  }
   onMouseEvent(mouseEventType: MouseEventType, mouseLocation: Vector): void {
-    switch (mouseEventType) {
-      case MouseEventType.MouseDown: {
-        this.isMouseDown = true;
-        this.lastMouseLocation = mouseLocation;
-      } break;
-      case MouseEventType.MouseMove: {
-        if (!this.isMouseDown) {
-          break;
-        }
-        const delta = this.lastMouseLocation.SubVector(mouseLocation);
-        this.scrollBy(delta);
-        this.lastMouseLocation = mouseLocation;
-      } break;
-      case MouseEventType.MouseLeave: {
-        this.isMouseDown = false;
-      } break;
-      case MouseEventType.MouseUp: {
-        this.isMouseDown = false;
-      } break;
+    if (state.mouseMode === MouseMode.Move) {
+      super.onMouseEvent(mouseEventType, mouseLocation);
     }
   }
 }

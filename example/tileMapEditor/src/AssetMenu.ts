@@ -3,6 +3,20 @@ import Vector from "../../../src/Vector";
 import Text from "../../../src/Text";
 import Image from "../../../src/Image";
 import loadImage from "../../../src/loadImage";
+import { MouseHandler, MouseEventType } from "../../../src/MouseController";
+import state from "./state";
+
+class AssetTile extends Image implements MouseHandler {
+  onMouseEvent(mouseEventType: MouseEventType, mouseLocation: Vector): void {
+    if (mouseEventType === MouseEventType.MouseDown) {
+      state.brush = {
+        assetImage: this.image,
+        x: this.sourceX,
+        y: this.sourceY,
+      };
+    }
+  }
+}
 
 export default class AssetMenu extends Box {
   readonly titleFontSize: number = 20;
@@ -25,7 +39,7 @@ export default class AssetMenu extends Box {
     const assetImage = await loadImage('asset1.png');
     for (let y = 0; y < assetImage.height; y += AssetMenu.tileSize) {
       for (let x = 0; x < assetImage.width; x += AssetMenu.tileSize) {
-        const tileImage = new Image(new Vector(0, 0), new Vector(64, 64), assetImage, x, y);
+        const tileImage = new AssetTile(new Vector(0, 0), new Vector(64, 64), assetImage, x, y);
         this.tileImages.push(tileImage);
       }
     }
