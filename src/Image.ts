@@ -5,9 +5,9 @@ export default class Image extends Sprite {
   constructor(
     location: Vector,
     size: Vector,
-    private image: HTMLImageElement,
-    private sourceX: number = 0,
-    private sourceY: number = 0,
+    protected image: HTMLImageElement,
+    protected sourceX: number = 0,
+    protected sourceY: number = 0,
   ) {
     super(location, size);
   }
