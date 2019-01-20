@@ -3,7 +3,7 @@ import Thing from "./Thing";
 import { getContext } from "./CanvasManager";
 
 export default abstract class Sprite extends Thing {
-  protected ctx: CanvasRenderingContext2D;
+  protected ctx: CanvasRenderingContext2D = getContext();
   constructor(
     location: Vector,
     size: Vector,
