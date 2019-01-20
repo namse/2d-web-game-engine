@@ -2,6 +2,7 @@ import Thing from "./Thing";
 import Vector from "./Vector";
 import world from "./world";
 import { getCanvasElement } from "./CanvasManager";
+import ScrollBox from "./ScrollBox";
 
 export enum MouseEventType {
   MouseDown = 'MouseDown',
@@ -50,8 +51,8 @@ export default class MouseController {
     return this.isPointInsideOfRect(point, targetWorldLeftTop, targetSize);
   }
   private propagateMouseEvent(canvasMouseEvent: CanvasMouseEvent, target: Thing, mouseLocation: Vector) {
+    const isMouseInsideOfTarget = this.isPointInsideOfThing(mouseLocation, target);
     if ((target as any as MouseHandler).onMouseEvent) {
-      const isMouseInsideOfTarget = this.isPointInsideOfThing(mouseLocation, target);
       const wasMouseInsideOfTarget = this.isPointInsideOfThing(this.previousMouseLocaiton, target);
       let event: MouseEventType;
       switch (canvasMouseEvent) {
@@ -81,7 +82,27 @@ export default class MouseController {
     }
 
 
-    target.children.forEach((child) => {
+    let children = target.children;
+
+    if (target instanceof ScrollBox) {
+      if (!isMouseInsideOfTarget) {
+        return;
+      }
+      children = target.children.filter((child) => {
+        const vertexes = [
+          child.location,
+          child.location.AddXY(child.size.x, 0),
+          child.location.AddXY(0, child.size.y),
+          child.location.AddXY(child.size.x, child.size.y),
+        ].map(vertex => vertex.SubVector(target.scroll));
+
+        return vertexes.some((vertex) => {
+          return this.isPointInsideOfRect(vertex, new Vector(0, 0), target.size);
+        })
+      })
+    }
+
+    children.forEach((child) => {
       this.propagateMouseEvent(canvasMouseEvent, child, mouseLocation);
     });
   }

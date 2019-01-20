@@ -5,6 +5,7 @@ export default class Thing {
   protected parent: Thing = null;
   protected speed: Vector = new Vector(0, 0);
   protected velocity: number = 100;
+  public scroll: Vector = new Vector(0, 0);
   constructor(
     public location: Vector = new Vector(0, 0),
     public size: Vector = new Vector(0, 0),
@@ -18,6 +19,7 @@ export default class Thing {
     let ret = this.getLeftTop();
     let parent = this.parent;
     while (parent) {
+      ret = ret.SubVector(parent.scroll);
       ret = ret.AddVector(parent.getLeftTop());
       parent = parent.parent;
     }
