@@ -1,4 +1,4 @@
-import { setCanvasElement } from '../../../src/CanvasManager';
+import { setCanvasElement, toggleFpsLog } from '../../../src/CanvasManager';
 import world from "../../../src/world";
 import Text from "../../../src/Text";
 import Vector from '../../../src/Vector';
@@ -25,4 +25,5 @@ world.addChildren(tileMap);
 
 const mouseController = new MouseController();
 
+toggleFpsLog(true);
 
